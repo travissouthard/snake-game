@@ -15,20 +15,31 @@ class Snake {
         this.ydir = y;
     }
 
+    grow() {
+        let head = this.body[this.body.length - 1].copy();
+        this.body.push(head);
+    }
+
     update () {
-        this.body[0].x += this.xdir;
-        this.body[0].y += this.ydir;
+        let head = this.body[this.body.length - 1].copy();
+        this.body.shift();
+        head.x += this.xdir;
+        head.y += this.ydir;
+        this.body.push(head)
     }
 
     show () {
-        noStroke();
-        fill(255);
-        rect(this.body[0].x * rez, this.body[0].y * rez, rez, rez)
+        for (let part of this.body) {
+            noStroke();
+            fill(255);
+            rect(part.x * rez, part.y * rez, rez, rez)
+        }
     }
 }
 
 function setup() {
     createCanvas(400, 400);
+    frameRate(5)
     snake = new Snake();
 }
 
@@ -41,11 +52,13 @@ function keyPressed() {
         snake.setDir(1, 0);
     } else if (keyCode === LEFT_ARROW) {
         snake.setDir(-1, 0);
+    } else if (key == " ") {
+        snake.grow();
     }
 }
 
 function draw() {
     background(220);
-    if (frameCount % timeStep == 0) snake.update();
+    snake.update();
     snake.show();
 }
