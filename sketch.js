@@ -1,6 +1,6 @@
 let snake;
 let rez = 10;
-let timeStep = 10;
+let timeStep = 20;
 
 class Snake {
     constructor() {
@@ -46,6 +46,6 @@ function keyPressed() {
 
 function draw() {
     background(220);
-    snake.update();
+    if (frameCount % timeStep == 0) snake.update();
     snake.show();
 }
